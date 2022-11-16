@@ -21,6 +21,27 @@ const client = new Discord.Client({
 client.commands = new Discord.Collection();
 
 
+//OPEN AI Configuration
+
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+const response = await openai.createImage({
+  prompt: "A cute baby sea otter",
+  n: 2,
+  size: "1024x1024",
+});
+
+console.log(response);
+
+
+//END OF OPEN AI BIT
+
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
