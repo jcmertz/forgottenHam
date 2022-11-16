@@ -25,7 +25,7 @@ module.exports = {
         console.log('hamData File Updated.')
       })
       console.log('New Track Recorded');
-      index = hamData.length-1
+      index = hamData["tracks"].length-1
       message.channel.send('Saved that! Track number '+index+ ' has been saved.');
     }
   },
