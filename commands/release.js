@@ -37,7 +37,7 @@ async function drawAlbumCover(string, Discord, message, args) {
 
 function afterArt(url,Discord, message, args) {
   newAlbum.artUrl = url;
-  hamData["album"].push(newAlbum);
+  hamData["albums"].push(newAlbum);
   // convert JSON object to a string
   const data = JSON.stringify(hamData)
 
