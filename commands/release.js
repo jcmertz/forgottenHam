@@ -1,3 +1,4 @@
+http = require('http');
 fs = require('fs');
 const {
   database
@@ -17,6 +18,20 @@ const openai = new OpenAIApi(configuration);
 
 
 //END OF OPEN AI BIT
+
+var download = function(url, dest, cb, Discord, message, args) {
+  var file = fs.createWriteStream(dest);
+  var request = http.get(url, function(response) {
+    response.pipe(file);
+    file.on('finish', function() {
+      file.close(cb(Discord,message,args)); // close() is async, call cb after close completes.
+    });
+  }).on('error', function(err) { // Handle errors
+    fs.unlink(dest); // Delete the file async. (But we don't check the result)
+  });
+
+}
+
 async function drawAlbumCover(string, Discord, message, args) {
   try {
     query = string + " album cover"
@@ -27,7 +42,7 @@ async function drawAlbumCover(string, Discord, message, args) {
     });
 
     //console.log(response.data.data[0].url);
-    afterArt(response.data.data[0].url,Discord, message, args)
+    afterArt(response.data.data[0].url, Discord, message, args)
 
   } catch (error) {
     console.error(`Could not get art: ${error}`);
@@ -35,8 +50,21 @@ async function drawAlbumCover(string, Discord, message, args) {
 }
 //drawAlbumCover("The Long Lost Enchilada of the Soul");
 
-function afterArt(url,Discord, message, args) {
-  newAlbum.artUrl = url;
+function finish(Discord, message, args) {
+  console.log('New Album Released');
+  index = hamData["albums"].length - 1
+
+  console.log(newAlbum.artUrl);
+
+  message.channel.send('Album number ' + index + ' has been saved.', {
+    files: [newAlbum.artUrl]
+  });
+}
+
+function afterArt(url, Discord, message, args) {
+  dest = '../albumArt/' + hamData["albums"].length + ".png";
+  download(url, dest, finish, Discord, message, args);
+  newAlbum.artPath = dest;
   hamData["albums"].push(newAlbum);
   // convert JSON object to a string
   const data = JSON.stringify(hamData)
@@ -48,14 +76,7 @@ function afterArt(url,Discord, message, args) {
     }
     console.log('hamData File Updated.')
   })
-  console.log('New Album Released');
-  index = hamData["albums"].length - 1
 
-  console.log(newAlbum.artUrl);
-
-  message.channel.send('Album number ' + index + ' has been saved.', {
-    files: [newAlbum.artUrl]
-  });
 
 }
 
