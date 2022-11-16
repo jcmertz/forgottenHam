@@ -8,12 +8,13 @@ module.exports = {
   args: true,
   execute(Discord, message, args) {
     if (typeof hamData != 'undefined') {
+      console.log(args);
       newAlbum = {};
       newAlbum.title = args[0];
       newAlbum.playCount = 0;
       newAlbum.producer = message.author.username;
       newAlbum.timestamp = message.createdAt.toString();
-      hamData["albums"].push(newAlbum);
+      hamData["album"].push(newAlbum);
       // convert JSON object to a string
       const data = JSON.stringify(hamData)
 
@@ -25,7 +26,7 @@ module.exports = {
         console.log('hamData File Updated.')
       })
       console.log('New Album Released');
-      index = hamData["albums"].length-1
+      index = hamData.length-1
       message.channel.send('Album number '+index+ ' has been saved.');
     }
   },
