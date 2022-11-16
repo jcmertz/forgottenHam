@@ -52,6 +52,17 @@ client.once('ready', () => {
 
 client.on('messageCreate', message => {
   //console.log(message.content);
+
+  if (message.content.startsWith("!image")) {
+    message.channel.send({content:"This is an image",
+        files: [{
+          attachment: __dirname + "/albumArt/7.png",
+          name: '7.png',
+          description: 'A description of the file'
+        }]
+      }).then(console.log)
+      .catch(console.error);
+  }
   if (!message.content.startsWith(prefix) || message.author.bot) {
     return;
   }

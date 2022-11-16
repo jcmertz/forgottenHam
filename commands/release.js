@@ -56,9 +56,14 @@ function finish(Discord, message, args) {
 
   console.log(newAlbum.artPath);
 
-  message.channel.send('Album number ' + index + ' has been saved.', {
-    files: [newAlbum.artPath]
-  });
+  message.channel.send({content:'Album number ' + index + ' has been saved.',
+      files: [{
+        attachment: newAlbum.artPath,
+        name: 'image.png',
+        description: 'A description of the file'
+      }]
+    }).then(console.log)
+    .catch(console.error);
 }
 
 function afterArt(url, Discord, message, args) {
