@@ -1,0 +1,6 @@
+{
+	"prefix": "cube.",
+	"token": "process.env.BOT_TOKEN",
+	"database": "cubes.json",
+	"backupDatabase": "backup-cubes.json"
+}

@@ -1,0 +1,1 @@
+This is a version of the old CMU CS Cube bot developed for discord. It is intended to be used in the PS:1 + n friends server
