@@ -13,10 +13,10 @@
  */
 /* eslint-disable consistent-return */
 module.exports = {
-  get(cubes) {
+  get(hamData) {
 
-    if (!cubes.length) {
-      throw new Error('Cube list must not be empty');
+    if (!hamData.length) {
+      throw new Error('Database list must not be empty');
     }
 
     // Preparing the cumulative weights array.
