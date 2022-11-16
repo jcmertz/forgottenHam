@@ -8,7 +8,6 @@ module.exports = {
   args: true,
   execute(Discord, message, args) {
     if (typeof hamData != 'undefined') {
-      console.log(args);
       newAlbum = {};
       newAlbum.title = args[0];
       newAlbum.playCount = 0;
