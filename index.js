@@ -66,7 +66,7 @@ client.on('messageCreate', message => {
     return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
   }
   try {
-    command.execute(openai, Discord, message, args);
+    command.execute(Discord, message, args);
     success = true;
   } catch (error) {
     console.error(error);
