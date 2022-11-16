@@ -3,6 +3,20 @@ const {
   database
 } = require('../config.json');
 
+//OPEN AI Configuration
+
+const {
+  Configuration,
+  OpenAIApi
+} = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+
+//END OF OPEN AI BIT
 async function drawAlbumCover(string) {
   try {
     query = string+" album cover"
@@ -19,12 +33,14 @@ async function drawAlbumCover(string) {
     console.error(`Could not get art: ${error}`);
   }
 }
+//drawAlbumCover("The Long Lost Enchilada of the Soul");
+
 
 module.exports = {
   name: 'release',
   description: 'Ingest new album titles',
   args: true,
-  execute(openai, Discord, message, args) {
+  execute(Discord, message, args) {
     if (typeof hamData != 'undefined') {
       newAlbum = {};
       newAlbum.title = args[0];

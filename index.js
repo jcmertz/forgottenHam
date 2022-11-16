@@ -22,24 +22,6 @@ const client = new Discord.Client({
 client.commands = new Discord.Collection();
 
 
-//OPEN AI Configuration
-
-const {
-  Configuration,
-  OpenAIApi
-} = require("openai");
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
-//drawAlbumCover("The Long Lost Enchilada of the Soul");
-
-
-//END OF OPEN AI BIT
-
-
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {

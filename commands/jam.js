@@ -2,7 +2,7 @@ const weightedRandom = require('../helperModules/weightedRandom');
 module.exports = {
   name: 'jam',
   description: 'Returns an album and artist',
-  async execute(openai, Discord, message, args) {
+  async execute(Discord, message, args) {
     if (typeof cubes != 'undefined') {
       if (!args.length) {
         temp = weightedRandom.get(cubes);
