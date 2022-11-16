@@ -1,4 +1,4 @@
-http = require('http');
+https = require('https');
 fs = require('fs');
 const {
   database
@@ -21,7 +21,7 @@ const openai = new OpenAIApi(configuration);
 
 var download = function(url, dest, cb, Discord, message, args) {
   var file = fs.createWriteStream(dest);
-  var request = http.get(url, function(response) {
+  var request = https.get(url, function(response) {
     response.pipe(file);
     file.on('finish', function() {
       file.close(cb(Discord,message,args)); // close() is async, call cb after close completes.
@@ -54,15 +54,15 @@ function finish(Discord, message, args) {
   console.log('New Album Released');
   index = hamData["albums"].length - 1
 
-  console.log(newAlbum.artUrl);
+  console.log(newAlbum.artPath);
 
   message.channel.send('Album number ' + index + ' has been saved.', {
-    files: [newAlbum.artUrl]
+    files: [newAlbum.artPath]
   });
 }
 
 function afterArt(url, Discord, message, args) {
-  dest = '../albumArt/' + hamData["albums"].length + ".png";
+  dest = __dirname + '/../albumArt/' + hamData["albums"].length + ".png";
   download(url, dest, finish, Discord, message, args);
   newAlbum.artPath = dest;
   hamData["albums"].push(newAlbum);
