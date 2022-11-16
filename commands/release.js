@@ -26,7 +26,7 @@ async function drawAlbumCover(string, Discord, message, args) {
       size: "512x512",
     });
 
-    console.log(response.data.data[0].url);
+    //console.log(response.data.data[0].url);
     afterArt(response.data.data[0].url,Discord, message, args)
 
   } catch (error) {
@@ -49,7 +49,9 @@ function afterArt(url,Discord, message, args) {
     console.log('hamData File Updated.')
   })
   console.log('New Album Released');
-  index = hamData.length - 1
+  index = hamData["albums"].length - 1
+
+  console.log(newAlbum.artUrl);
 
   message.channel.send('Album number ' + index + ' has been saved.', {
     files: [newAlbum.artUrl]
