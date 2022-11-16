@@ -17,9 +17,9 @@ const openai = new OpenAIApi(configuration);
 
 
 //END OF OPEN AI BIT
-async function drawAlbumCover(string) {
+async function drawAlbumCover(string, Discord, message, args) {
   try {
-    query = string+" album cover"
+    query = string + " album cover"
     const response = await openai.createImage({
       prompt: query,
       n: 1,
@@ -27,7 +27,7 @@ async function drawAlbumCover(string) {
     });
 
     console.log(response.data.data[0].url);
-    return response.data.data[0].url;
+    afterArt(response.data.data[0].url,Discord, message, args)
 
   } catch (error) {
     console.error(`Could not get art: ${error}`);
@@ -35,6 +35,27 @@ async function drawAlbumCover(string) {
 }
 //drawAlbumCover("The Long Lost Enchilada of the Soul");
 
+function afterArt(url,Discord, message, args) {
+  newAlbum.artUrl = url;
+  hamData["album"].push(newAlbum);
+  // convert JSON object to a string
+  const data = JSON.stringify(hamData)
+
+  // write JSON string to a file
+  fs.writeFile(database, data, err => {
+    if (err) {
+      throw err
+    }
+    console.log('hamData File Updated.')
+  })
+  console.log('New Album Released');
+  index = hamData.length - 1
+
+  message.channel.send('Album number ' + index + ' has been saved.', {
+    files: [newAlbum.artUrl]
+  });
+
+}
 
 module.exports = {
   name: 'release',
@@ -47,25 +68,7 @@ module.exports = {
       newAlbum.playCount = 0;
       newAlbum.producer = message.author.username;
       newAlbum.timestamp = message.createdAt.toString();
-      newAlbum.artUrl = drawAlbumCover(newAlbum.title);
-      hamData["album"].push(newAlbum);
-      // convert JSON object to a string
-      const data = JSON.stringify(hamData)
-
-      // write JSON string to a file
-      fs.writeFile(database, data, err => {
-        if (err) {
-          throw err
-        }
-        console.log('hamData File Updated.')
-      })
-      console.log('New Album Released');
-      index = hamData.length - 1
-
-      message.channel.send('Album number ' + index + ' has been saved.', {
-        files: [newAlbum.artUrl]
-      });
-
+      drawAlbumCover(newAlbum.title, Discord, message, args);
     }
   },
 };
