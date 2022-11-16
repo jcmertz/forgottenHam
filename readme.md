@@ -1,1 +1,4 @@
-This is a version of the old CMU CS Cube bot developed for discord. It is intended to be used in the PS:1 + n friends server
+Ham.record [Song Title] = Ingest Song Name
+Ham.release [Album Title] = Ingest Album Name
+Ham.jam = Spit Out a Random Song Title and Album Name
+
