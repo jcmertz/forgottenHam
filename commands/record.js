@@ -6,7 +6,7 @@ module.exports = {
   name: 'record',
   description: 'Ingest new song titles',
   args: true,
-  execute(Discord, message, args) {
+  execute(openai, Discord, message, args) {
     if (typeof hamData != 'undefined') {
       newTrack = {};
       newTrack.title = args[0];

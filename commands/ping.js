@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'ping',
 	description: 'Ping!',
-	execute(Discord, message, args) {
+	execute(openai, Discord, message, args) {
 		message.channel.send('Pong.');
 	},
 };

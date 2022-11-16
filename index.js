@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const fs = require('fs');
 const Discord = require('discord.js');
 
@@ -10,33 +11,30 @@ const {
   backupDatabase
 } = require('./config.json');
 rawData = fs.readFileSync(database);
-hamData=JSON.parse(rawData);
+hamData = JSON.parse(rawData);
 const client = new Discord.Client({
-	intents: [
-		Discord.GatewayIntentBits.Guilds,
-		Discord.GatewayIntentBits.GuildMessages,
-		Discord.GatewayIntentBits.MessageContent,
-	],
+  intents: [
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.MessageContent,
+  ],
 });
 client.commands = new Discord.Collection();
 
 
 //OPEN AI Configuration
 
-const { Configuration, OpenAIApi } = require("openai");
+const {
+  Configuration,
+  OpenAIApi
+} = require("openai");
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
-const response = await openai.createImage({
-  prompt: "A cute baby sea otter",
-  n: 2,
-  size: "1024x1024",
-});
-
-console.log(response);
+//drawAlbumCover("The Long Lost Enchilada of the Soul");
 
 
 //END OF OPEN AI BIT
@@ -55,7 +53,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
   console.log('Ready!');
 
-  var backup = new CronJob('0,15,30,45 * * * *', function(){
+  var backup = new CronJob('0,15,30,45 * * * *', function() {
     // convert JSON object to a string
     const data = JSON.stringify(hamData)
 
@@ -86,7 +84,7 @@ client.on('messageCreate', message => {
     return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
   }
   try {
-    command.execute(Discord, message, args);
+    command.execute(openai, Discord, message, args);
     success = true;
   } catch (error) {
     console.error(error);
